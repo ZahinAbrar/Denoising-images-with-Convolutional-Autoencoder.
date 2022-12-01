@@ -26,13 +26,6 @@ for image_loc in image_list:
     resized_image = tf.reshape(tf.image.resize_images(image_decoded, [64,64]),[64,64,1])   # single image autoencoder run I need to change it from (28,28,1) to (1,28,28,1)
     resized_image_array.append(resized_image)
 
-   
-#I am thinking this is causing the kernel problem so I commented it    
-#print(resized_image_array)
-
-### We need to make a training dataset so we are appending an array with the previously built list
-### Important link in this regard (https://stackoverflow.com/questions/42518744/making-a-list-and-appending-to-it-in-tensorflow)
-### if follow the link there was tf. log, it was unnecessaty and it causes the cost function become 'nan'.
 ### creating Training Dataset
 X_train_orig = []
 for i in range(200):
@@ -43,8 +36,7 @@ for i in range(200):
 ##creating_Training_Image  
 X_train_orig = tf.stack(X_train_orig)
 print("Stacked X_train_orig shape is", X_train_orig.shape)
-#
-#### I alse checked whether the block of code is right or not with the method that was successful earlier
+
 
 corrupted_resized_image_array=[]
 noise_factor = 0.000000001
@@ -55,9 +47,7 @@ for image_loc in image_list:
     corrupted_resized_image = resized_image + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=resized_image.shape)
     corrupted_resized_image_array.append(corrupted_resized_image)
     
-#### I alse checked whether the block of code is right or not with the method that was successful earlier    
-#print(corrupted_resized_image_array)
-#
+
 X_train_noisy = []
 for i in range(200):
   q = corrupted_resized_image_array[i]
@@ -69,99 +59,6 @@ print("Shape of sample_size", X_train_noisy.shape[0] )
 batch_size = 20;
 num_batches = X_train_noisy.shape[0] // batch_size
 
-### Creating Testing Dataset
-## this block is commented becuase I am not concerned about testinsg set now
-#X_test_orig = []
-#for i in range(4000,4500):
-#  t = resized_image_array[i]
-#  # print(q)    #Tensor("Log:0", shape=(), dtype=float32)  # printing this is not important
-#  X_test_orig.append(t)
-#  
-###creating_Training_Image  
-#X_test_orig = tf.stack(X_test_orig)
-#print("Stacked X_test_orig shape is", X_test_orig.shape)
-##
-##### I alse checked whether the block of code is right or not with the method that was successful earlier
-#
-#corrupted_resized_image_array=[]
-#noise_factor = 0.05
-#for image_loc in image_list:
-#    image_contents = tf.read_file(image_loc)
-#    image_decoded = tf.image.decode_jpeg(image_contents,channels=1)   ## Decode a JPEG-encoded image to a uint8 tensor.
-#    resized_image = tf.reshape(tf.image.resize_images(image_decoded, [32,32]),[32,32,1])             # single image autoencoder run I need to change it from (28,28,1) to (1,28,28,1)
-#    corrupted_resized_image = resized_image + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=resized_image.shape)
-#    corrupted_resized_image_array.append(corrupted_resized_image)
-#    
-##### I alse checked whether the block of code is right or not with the method that was successful earlier    
-##print(corrupted_resized_image_array)
-##
-#X_test_noisy = []
-#for i in range(4100,4500):
-#  q = resized_image_array[i]
-#  # print(q)    #Tensor("Log:0", shape=(), dtype=float32) # printing this is not important
-#  X_test_noisy.append(q)
-#X_test_noisy = tf.stack(X_test_noisy)
-#print("Stacked X_test_noisy shape is", X_test_noisy.shape)
-
-
-
-
-
-
-### this block of code was writted for corrupting a single image
-#noise_factor = 0.01
-#train_x_sample = resized_image_array[6];
-#print("Element Addition", tf.reduce_sum(train_x_sample))
-#print("For single orig image", train_x_sample.shape)
-#train_x_sample_noisy = train_x_sample + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=train_x_sample.shape)
-#print("for single noisy image", train_x_sample_noisy.shape)
-## end of code block
-
-### this block of code is correct if you want to retreive images from the already converted tensor, for our case it is uint8
-### We are Just Plotting One image here so come back when needed
-
-
-#noise_factor_ = 0.0005
-#myimg =X_train_noisy[5]
-#print('myimage', myimg.shape)
-#myimg_noisy =myimg + noise_factor_ * np.random.normal(loc=0.0, scale=1.0, size=myimg.shape)
-#print('myimage_noisy', myimg.shape)
-#
-#
-#init_op = tf.global_variables_initializer()
-#with tf.Session() as sess:
-#   sess.run(init_op)
-#   for i in range(1):
-#     image_noise = tf.image.resize_images(myimg, [64,64])
-#     image_noise_2 = tf.reshape(image_noise, [64,64])                            #length of your filename list
-#     imagi = image_noise_2.eval()                       #here is your image Tensor :)
-#     Image.fromarray(imagi.astype('uint8'), mode='L').show()
-#   
-   
-   
-   
-#        any_image = decoded_image
-#        any_image_1 = tf.image.resize_images(any_image, [512,512])
-#        print("Shape after Resize", any_image_1.shape) 
-#        any_image_2 = tf.reshape(any_image_1, [512, 512])
-#        print("Shape after Reshape", any_image_2.shape)
-#        any_vis_image = any_image_2.eval()
-#        Image.fromarray(any_vis_image.astype('uint8'), mode='L').show()   
-
-### Most probably this image.fromarray only works for black and white image, that's why I converted this to black and white image
-### If you put 28*28 the image is quite small, so I made it 512*512 to make it larger and applying noise is also working, so I am good here.
-### thus no issue regarding, whether the noise is corrupting or not, we can move forward in training the autoencoder model
-### though there is no ptoblem in autoencoder while working with RGB images, but to be in a safe side I am so far working with grey images.
-### However, there is still one issue how to scale up the image to be shown with Image.fromarray
-
-
-
-
-
-
-
-
-
 
 
 
@@ -171,8 +68,6 @@ X_Input_Noise = tf.placeholder(tf.float32, shape = (None, 64,64,1), name = "Inpu
 X_Input_test = tf.placeholder(tf.float32, shape = (None, 64,64,1))
 X_Input_test_Noise = tf.placeholder(tf.float32, shape = (None, 64,64,1))
 
-
-## max_ppoling 2d is not working
 print("Encoder Arcitecture")
 x1 = tf.layers.conv2d(inputs= X_Input_Noise, filters=32, kernel_size=[5, 5], padding="same", activation=tf.nn.relu)
 print("Enc_layer1", x1.shape)
@@ -234,9 +129,6 @@ print("Final Layer in Decoder", decoded_image_.shape)
 decoded_image = tf.identity(decoded_image_, name = "Output")
 print("another Final Layer in Decoder", decoded_image.shape)
 
-
-
-## there is some kind of a block of black iamge in this new architecture, I do not know why
 ### This block of code is for adaptive learning rate
 def make_learning_rate_tensor(reduction_steps, learning_rates, global_step):
     assert len(reduction_steps) + 1 == len(learning_rates)
@@ -266,20 +158,9 @@ Learning_Rate = make_learning_rate_tensor(epochs_to_switch_at , learning_rates, 
 
 #
 
-#### this is for spyder I am not sure let's see what happens
+
 mmse = tf.losses.mean_squared_error(decoded_image, X_Input)
-#optimizer = tf.train.AdamOptimizer(learning_rate = Learning_Rate ).minimize(mmse)
-#### In case of AdadeltaOptimizer two learning rates 0.01 and 0.00001 gives a good result
 optimizer = tf.train.AdadeltaOptimizer(learning_rate= Learning_Rate, rho=0.95, epsilon=1e-6).minimize(mmse)
-
-## checking the added value of the ipout tensor, I check like three tensors for all of the value of addition was 90k+
-## but there is one interesting thing, it does not matter whether I am training with 10 values or 1 values the loss is always stuck 
-## at 18k around
-
-#init_op = tf.global_variables_initializer()
-#with tf.Session() as sess:
-#    sess.run(init_op)
-#    print(tf.reduce_sum(train_x_sample).eval())
 
 init_op = tf.global_variables_initializer()
 bal = 22000
@@ -299,10 +180,6 @@ with tf.Session() as sess:
         Denoiser_loss.append(u)
     print(Denoiser_loss)
     
-#    save_path =r"D:\Fall_2018\Research\Simulation\Fall_jpeg_grey\resume_training_9_aug\Saved_Model.ckpt" #uncomment
-#    saver.save(sess, save_path)    
-    
-
     
     any_image = X_train_noisy[20]    
     any_image = tf.reshape(any_image, [1,64,64,1])
