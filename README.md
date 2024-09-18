@@ -1,5 +1,3 @@
-# Denoising-images-with-Convolutional-Autoencoder.
-
 # Image Denoising with Convolutional Autoencoder
 
 This project demonstrates how to build a **Convolutional Autoencoder** (CAE) to denoise images. Autoencoders are neural networks that learn to compress data (encoding) and then reconstruct it (decoding). The convolutional variant leverages the spatial structure of images, making it ideal for image-related tasks.
