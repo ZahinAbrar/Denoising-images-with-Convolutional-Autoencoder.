@@ -1,6 +1,4 @@
-**Q1: What are autoencoders? Explain the different layers of autoencoders and mention three practical usages of them?**
-
-**Answer:**
+# Autoencoders
 
 Autoencoders are a type of deep learning model used for unsupervised learning. The key layers of autoencoders are the input layer, encoder, bottleneck (hidden layer), decoder, and output layer.
 
