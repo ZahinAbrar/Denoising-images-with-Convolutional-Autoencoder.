@@ -45,3 +45,13 @@ The autoencoder consists of two main parts:
 - Minimum Mean Squared Error was used as a loss function
 - Adam optimizer was used with a varaible learning rate
 
+### Challenges:
+
+-Overfitting: One of the main challenges was overfitting during training, where the model performed well on the training data but failed to generalize to the test set. To address this, we applied techniques such as adding dropout layers and using data augmentation (like rotating and flipping the images) to make the model more robust.
+
+-Loss Function Optimization: Initially, the model struggled to generate high-quality denoised images. I experimented with different loss functions such as Mean Squared Error (MSE) and Binary Cross-Entropy, and eventually settled on MSE, which yielded better image quality in terms of noise reduction.
+
+-Balancing Model Capacity: Another challenge was finding the right model complexity. A smaller model wasn’t capturing enough detail, while a larger model introduced unnecessary complexity, which led to slower training times and more memory usage. We tuned the depth of the convolutional layers to strike a balance between efficiency and performance.
+
+By addressing these challenges, we managed to successfully train the model to denoise images and achieve visually appealing results, making the images significantly cleaner than the noisy inputs.
+
