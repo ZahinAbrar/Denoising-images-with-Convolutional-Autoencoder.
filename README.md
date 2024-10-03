@@ -34,7 +34,7 @@ The autoencoder consists of two main parts:
 2. **Decoder**: The decoder reconstructs the image by applying upsampling and transposed convolutional layers to revert the compressed representation to the original image size.
 
 ### Encoder
-- Conv2D → ReLU → MaxPooling2D
+- Conv2D → ReLU → MaxPooling2D - Relu to battle against the vanishing gradient problem
 - Conv2D → ReLU → MaxPooling2D
 
 ### Decoder
