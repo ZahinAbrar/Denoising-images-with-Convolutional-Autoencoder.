@@ -41,3 +41,7 @@ The autoencoder consists of two main parts:
 - Conv2DTranspose → ReLU → Upsampling2D
 - Conv2DTranspose → Sigmoid
 
+### Loss Optmization
+- Minimum Mean Squared Error was used as a loss function
+- Adam optimizer was used with a varaible learning rate
+
