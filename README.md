@@ -1,57 +1,79 @@
-# Autoencoders
+# 🧠 Autoencoders & Image Denoising with Convolutional Autoencoders ![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?logo=tensorflow&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![Deep Learning](https://img.shields.io/badge/DeepLearning-Autoencoder-blueviolet)
 
-Autoencoders are a type of deep learning model used for unsupervised learning. The key layers of autoencoders are the input layer, encoder, bottleneck (hidden layer), decoder, and output layer.
+## 🔍 What Are Autoencoders?
 
-The three main layers of the autoencoder are:
+Autoencoders are a type of deep learning model used for **unsupervised learning**. They learn to compress data (encoding) and then reconstruct it (decoding), capturing essential features in the process.
 
-- **Encoder**: Compresses the input data into an encoded representation, which is typically much smaller than the input data.
-- **Latent Space Representation / Bottleneck / Code**: This is a compact summary of the input, containing the most important features.
-- **Decoder**: Decompresses the encoded representation and reconstructs the data back from its compressed form. A loss function is used at the top to compare the input and output. _Note: It is required that the dimensionality of the input and output be the same. The internal layers (encoder, bottleneck, decoder) can be adjusted._
+### 🧩 Core Components
 
-Autoencoders have a wide variety of real-world applications. Some popular examples include:
+- **Encoder**: Compresses input into a low-dimensional representation.
+- **Latent Space / Bottleneck**: Encoded compact summary of the input.
+- **Decoder**: Reconstructs the input from the encoded representation.
 
-- **Transformers and Big Bird**: Autoencoders are components of these algorithms, used for tasks like text summarization and text generation.
-- **Image Compression**: Reducing the size of images while maintaining important features.
-- **Nonlinear version of PCA**: Autoencoders can be used as a more flexible, nonlinear alternative to Principal Component Analysis (PCA).
+> 📌 Note: Input and output dimensions are typically the same. The internal layers (encoder, bottleneck, decoder) can be varied.
 
-# Image Denoising with Convolutional Autoencoder
+### 🚀 Real-World Applications
 
-This project demonstrates how to build a **Convolutional Autoencoder** (CAE) to denoise images. Autoencoders are neural networks that learn to compress data (encoding) and then reconstruct it (decoding). The convolutional variant leverages the spatial structure of images, making it ideal for image-related tasks.
+- ✨ Transformers & BigBird: For text summarization and generation.
+- 🖼️ Image Compression: Efficient storage without losing key features.
+- 📊 PCA Alternative: Flexible, nonlinear substitute for Principal Component Analysis.
 
-## Problem Description
+---
 
-We aim to remove noise from images by training a convolutional autoencoder. The model will take noisy images as input and learn to output the clean, original images.
+## 🧼 Image Denoising with Convolutional Autoencoders
 
-## Dataset
+This project demonstrates how to build a **Convolutional Autoencoder (CAE)** to remove noise from images while preserving structure and clarity.
 
-For this project, we use a dataset of clean images and add random Gaussian noise to Custom image datasets
+### 🎯 Problem Statement
 
-## Model Architecture
+Train a model that can remove **Gaussian noise** from images using deep convolutional neural networks.
 
-The autoencoder consists of two main parts:
+### 📁 Dataset
 
-1. **Encoder**: This part compresses the image into a lower-dimensional representation by applying a series of convolutional and pooling layers.
-2. **Decoder**: The decoder reconstructs the image by applying upsampling and transposed convolutional layers to revert the compressed representation to the original image size.
+A custom dataset of clean images with artificially added **random Gaussian noise**.
 
-### Encoder
-- Conv2D → ReLU → MaxPooling2D - Relu to battle against the vanishing gradient problem
-- Conv2D → ReLU → MaxPooling2D
+---
 
-### Decoder
-- Conv2DTranspose → ReLU → Upsampling2D
-- Conv2DTranspose → Sigmoid
+## 🏗️ Model Architecture
 
-### Loss Optmization
-- Minimum Mean Squared Error was used as a loss function
-- Adam optimizer was used with a varaible learning rate
+### 🧠 Encoder
+- `Conv2D` → `ReLU` → `MaxPooling2D`
+- `Conv2D` → `ReLU` → `MaxPooling2D`
 
-### Challenges:
+> ✅ ReLU activation combats vanishing gradients.
 
--Overfitting: One of the main challenges was overfitting during training, where the model performed well on the training data but failed to generalize to the test set. To address this, we applied techniques such as adding dropout layers and using data augmentation (like rotating and flipping the images) to make the model more robust.
+### 🛠️ Decoder
+- `Conv2DTranspose` → `ReLU` → `UpSampling2D`
+- `Conv2DTranspose` → `Sigmoid`
 
--Loss Function Optimization: Initially, the model struggled to generate high-quality denoised images. I experimented with different loss functions such as Mean Squared Error (MSE) and L1 error, and eventually settled on MSE, which yielded better image quality in terms of noise reduction.
+---
 
--Balancing Model Capacity: Another challenge was finding the right model complexity. A smaller model wasn’t capturing enough detail, while a larger model introduced unnecessary complexity, which led to slower training times and more memory usage. We tuned the depth of the convolutional layers to strike a balance between efficiency and performance.
+## 📉 Optimization
 
-By addressing these challenges, we managed to successfully train the model to denoise images and achieve visually appealing results, making the images significantly cleaner than the noisy inputs.
+- **Loss Function**: Mean Squared Error (MSE)
+- **Optimizer**: Adam with a variable learning rate
 
+---
+
+## 🧪 Challenges & Solutions
+
+### ⚠️ Overfitting
+- Mitigated with **Dropout layers** and **Data Augmentation** (e.g., flips, rotations)
+
+### ⚙️ Loss Function Tuning
+- Tested MSE vs. L1 loss → MSE gave better image fidelity.
+
+### 🧠 Model Complexity
+- Balanced depth of convolution layers to avoid underfitting or excessive training time/memory usage.
+
+---
+
+## 🎨 Result
+
+The final model effectively removed noise, preserving structural integrity of input images and producing **visually enhanced outputs**.
+
+---
+
+## 📌 Summary
+
+This project illustrates the power of convolutional autoencoders in solving image denoising tasks through careful tuning, architecture design, and robust training.
